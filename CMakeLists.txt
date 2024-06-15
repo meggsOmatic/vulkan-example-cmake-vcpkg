@@ -33,18 +33,28 @@ target_link_libraries(vksample PRIVATE tinyobjloader::tinyobjloader)
 set(SHADER_OUTPUT "")
 function(add_shader SRCNAME DSTNAME)
   set(SRCPATH "${CMAKE_SOURCE_DIR}/shaders/${SRCNAME}")
-  set(DSTPATH "${CMAKE_BINARY_DIR}/shaders/${DSTNAME}")
-  add_custom_command(OUTPUT "${DSTPATH}" MAIN_DEPENDENCY "${SRCPATH}" COMMAND "${PACKAGE_PREFIX_DIR}/tools/shaderc/glslc.exe" "${SRCPATH}" -o "${DSTPATH}")
-  message("${SHADER_OUTPUT}")
+  set(DSTPATH "${CMAKE_CURRENT_BINARY_DIR}/shaders/${DSTNAME}")
+  add_custom_command(
+    OUTPUT "${DSTPATH}"
+    MAIN_DEPENDENCY "${SRCPATH}"
+    COMMAND "${PACKAGE_PREFIX_DIR}/tools/shaderc/glslc.exe" "${SRCPATH}" -o "${DSTPATH}")
   list(APPEND SHADER_OUTPUT "${DSTPATH}")
-  message("${SHADER_OUTPUT}")
   set(SHADER_OUTPUT "${SHADER_OUTPUT}" PARENT_SCOPE)
-  message("${SHADER_OUTPUT}")
 endfunction()
 add_shader("shader.vert" "vert.spv")
 add_shader("shader.frag" "frag.spv")
 add_custom_target(shader_bytecode DEPENDS ${SHADER_OUTPUT})
 add_dependencies(vksample shader_bytecode)
+
+add_custom_command(TARGET vksample POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  "${CMAKE_SOURCE_DIR}/textures"
+  "${CMAKE_CURRENT_BINARY_DIR}/textures")
+
+add_custom_command(TARGET vksample POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  "${CMAKE_SOURCE_DIR}/models"
+  "${CMAKE_CURRENT_BINARY_DIR}/models")
 
 set_property(TARGET vksample PROPERTY CXX_STANDARD 20)
 
