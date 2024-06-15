@@ -14,14 +14,6 @@ project ("vksample")
 # Add source to this project's executable.
 add_executable (vksample "vksample.cpp" "vksample.h")
 
-# required to play nice with vulkan validation layers
-#find_package(mimalloc CONFIG REQUIRED)
-#target_link_libraries(vksample PRIVATE mimalloc)
-#message(STATUS "Found mimalloc installed at: ${MIMALLOC_LIBRARY_DIR} (${MIMALLOC_VERSION_DIR})")
-#message(STATUS "$ENV{VCPKG_ROOT}/packages/mimalloc_x64-windows/bin/mimalloc.dll")
-#message(STATUS "${CMAKE_BINARY_DIR}/mimalloc.dll")
-file(COPY "$ENV{VCPKG_ROOT}/packages/mimalloc_x64-windows/bin/" DESTINATION "${CMAKE_BINARY_DIR}")
-
 # https://cmake.org/cmake/help/latest/module/FindVulkan.html
 find_package(Vulkan REQUIRED)
 target_link_libraries(vksample PRIVATE Vulkan::Vulkan)
