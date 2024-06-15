@@ -4,8 +4,7 @@
     "glm",
     "stb",
     "tinyobjloader",
-    "vulkan",
-    "vulkan-validationlayers",
-    "mimalloc"
+    "vulkan-sdk-components",
+    "vulkan-validationlayers"
   ]
 }

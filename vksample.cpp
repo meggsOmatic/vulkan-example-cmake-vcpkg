@@ -1,4 +1,6 @@
-﻿#define GLFW_INCLUDE_VULKAN
+﻿#include <filesystem>
+
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
@@ -1958,6 +1960,10 @@ class HelloTriangleApplication {
 };
 
 int main() {
+  auto path = std::filesystem::current_path() / "vcpkg_installed" /
+              "x64-windows" / "bin";
+  std::string set = "VK_ADD_LAYER_PATH=" + path.string();
+  _putenv(set.c_str());
   HelloTriangleApplication app;
 
   try {
