@@ -1,0 +1,11 @@
+{
+  "dependencies": [
+    "glfw3",
+    "glm",
+    "stb",
+    "tinyobjloader",
+    "vulkan",
+    "vulkan-validationlayers",
+    "mimalloc"
+  ]
+}
