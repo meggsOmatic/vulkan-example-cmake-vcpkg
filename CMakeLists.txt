@@ -30,6 +30,22 @@ target_link_libraries(vksample PRIVATE glm::glm)
 find_package(tinyobjloader CONFIG REQUIRED)
 target_link_libraries(vksample PRIVATE tinyobjloader::tinyobjloader)
 
+set(SHADER_OUTPUT "")
+function(add_shader SRCNAME DSTNAME)
+  set(SRCPATH "${CMAKE_SOURCE_DIR}/shaders/${SRCNAME}")
+  set(DSTPATH "${CMAKE_BINARY_DIR}/shaders/${DSTNAME}")
+  add_custom_command(OUTPUT "${DSTPATH}" MAIN_DEPENDENCY "${SRCPATH}" COMMAND "${PACKAGE_PREFIX_DIR}/tools/shaderc/glslc.exe" "${SRCPATH}" -o "${DSTPATH}")
+  message("${SHADER_OUTPUT}")
+  list(APPEND SHADER_OUTPUT "${DSTPATH}")
+  message("${SHADER_OUTPUT}")
+  set(SHADER_OUTPUT "${SHADER_OUTPUT}" PARENT_SCOPE)
+  message("${SHADER_OUTPUT}")
+endfunction()
+add_shader("shader.vert" "vert.spv")
+add_shader("shader.frag" "frag.spv")
+add_custom_target(shader_bytecode DEPENDS ${SHADER_OUTPUT})
+add_dependencies(vksample shader_bytecode)
+
 set_property(TARGET vksample PROPERTY CXX_STANDARD 20)
 
 # TODO: Add tests and install targets if needed.
