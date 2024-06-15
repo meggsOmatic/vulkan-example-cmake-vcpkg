@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# We exclude .obj in general, but we want them under the models directory
+!models/*.obj
